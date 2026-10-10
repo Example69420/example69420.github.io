@@ -381,7 +381,8 @@ const S = (() => {
     timeup(){ tone(233,.55,{type:"sawtooth",vol:.08,to:150}); tone(220,.55,{type:"square",vol:.04,to:140,at:.02}); },
   };
 })();
-["pointerdown","touchend","keydown"].forEach(e => document.addEventListener(e, () => S.init(), { capture:true, passive:true }));
+/* Safari on a Mac only lets audio start from mousedown/click, not pointerdown, so listen for click too */
+["pointerdown","touchend","keydown","click"].forEach(e => document.addEventListener(e, () => S.init(), { capture:true, passive:true }));
 
 const ICON_ON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
 const ICON_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="m16 9 6 6M22 9l-6 6"/></svg>';
