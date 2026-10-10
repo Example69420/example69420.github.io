@@ -55,6 +55,14 @@
             "$other": { ".validate": false }
           }
         },
+        "cfg": {
+          ".read": "auth != null",
+          ".write": "auth != null && root.child('cn').child($code).child('players').child(auth.uid).exists()",
+          ".validate": "newData.hasChildren(['lang', 'adult'])",
+          "lang": { ".validate": "newData.val() === 'id' || newData.val() === 'en'" },
+          "adult": { ".validate": "newData.isBoolean()" },
+          "$other": { ".validate": false }
+        },
         "game": {
           ".read": "auth != null",
           ".write": "auth != null && newData.exists() && root.child('cn').child($code).child('players').child(auth.uid).exists() && !data.parent().child('roster').child(newData.child('id').val()).exists() && newData.parent().child('roster').child(newData.child('id').val()).child(auth.uid).child('spy').val() === true",
@@ -62,6 +70,7 @@
           "id": { ".validate": "newData.isString() && newData.val().matches(/^g[a-z0-9]{6,20}$/)" },
           "first": { ".validate": "newData.val() === 'r' || newData.val() === 'b'" },
           "lang": { ".validate": "newData.val() === 'id' || newData.val() === 'en'" },
+          "adult": { ".validate": "newData.isBoolean()" },
           "words": {
             "$i": { ".validate": "$i.matches(/^([0-9]|1[0-9]|2[0-4])$/) && newData.isString() && newData.val().length >= 1 && newData.val().length <= 20" }
           },
