@@ -339,7 +339,8 @@ const S = (() => {
   let ctx = null, master = null;
   function init(){
     if(!ctx){ const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return; ctx = new AC(); master = ctx.createGain(); master.gain.value = .7; master.connect(ctx.destination); }
-    if(ctx.state === "suspended") ctx.resume();
+    /* iOS parks the context as "interrupted" (not "suspended") after a call or switching apps */
+    if(ctx.state !== "running") ctx.resume().catch(() => {});
   }
   function tone(f, dur, o = {}){
     if(!ctx || !soundOn) return;
