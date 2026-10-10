@@ -537,6 +537,9 @@ function derive(){
 function spyDuties(){
   const me = roster[uid];
   if(!game || !st || !me || me.spy !== true || !key) return;
+  /* one spymaster does it, so they don't race each other: the online one with the lowest uid */
+  const duty = Object.keys(roster).filter(id => roster[id] && roster[id].spy === true && players[id]).sort()[0];
+  if(duty !== uid) return;
   const miss = [];
   if(st.pending && rev[st.pending.i] == null) miss.push(st.pending.i);
   if(st.over) for(let i = 0; i < 25; i++) if(rev[i] == null) miss.push(i);
